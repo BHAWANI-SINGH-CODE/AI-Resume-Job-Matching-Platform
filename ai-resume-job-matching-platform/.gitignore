@@ -12,6 +12,7 @@ target/
 .settings
 .springBeans
 .sts4-cache
+.env
 
 ### IntelliJ IDEA ###
 .idea
@@ -21,6 +22,7 @@ target/
 
 ### NetBeans ###
 /nbproject/private/
+logs/
 /nbbuild/
 /dist/
 /nbdist/
@@ -31,3 +33,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+application-local.properties

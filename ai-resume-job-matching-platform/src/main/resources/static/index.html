@@ -4,99 +4,930 @@
 <head>
 
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>AI Resume & Job Matching Platform</title>
+
+    <meta name="description"
+          content="Build ATS Optimized Resume using Artificial Intelligence and get matched with the best jobs.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
 
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/theme.css">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/landing.css">
+    <link rel="stylesheet" href="css/responsive.css">
 
 </head>
 
 <body>
 
-<header class="landing-header">
 
-    <div class="container">
+<!-- =======================================
+                NAVBAR
+======================================== -->
 
-        <div class="navbar">
+<header class="navbar">
 
-            <div class="logo">
+    <div class="logo">
 
-                AI Resume
+        AI<span>Resume</span>
 
-            </div>
+    </div>
 
-            <nav>
+    <nav class="nav-links">
 
-                <a href="#">Home</a>
+        <a href="#">Home</a>
 
-                <a href="#">Features</a>
+        <a href="#features">Features</a>
 
-                <a href="#">Jobs</a>
+        <a href="#workflow">How It Works</a>
 
-                <a href="#">Pricing</a>
+        <a href="#">Jobs</a>
 
-                <a href="login.html">Login</a>
+        <a href="#">Pricing</a>
 
-                <a href="register.html" class="btn btn-primary">
+    </nav>
 
-                    Register
+    <div class="nav-buttons">
 
-                </a>
+        <button class="btn btn-secondary">
 
-            </nav>
+            Login
 
-        </div>
+        </button>
+
+        <button class="btn btn-primary">
+
+            Get Started
+
+        </button>
 
     </div>
 
 </header>
 
+
+
+<!-- =======================================
+                HERO SECTION
+======================================== -->
+
 <section class="hero">
 
-    <div class="container">
+    <div class="hero-container">
 
-        <div class="hero-content fade-in">
+
+        <!-- =======================
+              LEFT SIDE
+        ======================== -->
+
+        <div class="hero-left">
+
+            <div class="glass-badge">
+
+                🚀 AI Powered Career Platform
+
+            </div>
 
             <h1>
 
-                Build Better Resume.
+                Build Better Resume
 
-                Get Better Jobs.
+                <br>
+
+                <span>
+
+                    Land Better Jobs
+
+                </span>
 
             </h1>
 
             <p>
 
-                AI Powered Resume Analysis,
-
-                ATS Score,
-
-                Resume Suggestions,
-
-                Job Matching
-
-                in one platform.
+                Improve your ATS score, receive intelligent resume suggestions,
+                match with the right jobs, and manage your complete career journey
+                using Artificial Intelligence.
 
             </p>
 
-            <div style="margin-top:30px">
+            <div class="hero-tags">
 
-                <a href="register.html" class="btn btn-primary">
+                <div class="hero-tag">
 
-                    Get Started
+                    ATS Optimizer
+
+                </div>
+
+                <div class="hero-tag">
+
+                    Resume Analysis
+
+                </div>
+
+                <div class="hero-tag">
+
+                    AI Suggestions
+
+                </div>
+
+                <div class="hero-tag">
+
+                    Job Matching
+
+                </div>
+
+            </div>
+
+            <div class="hero-buttons">
+
+                <button class="btn btn-primary">
+
+                    Start Free
+
+                </button>
+
+                <button class="btn btn-secondary">
+
+                    Watch Demo
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =======================
+              RIGHT SIDE
+        ======================== -->
+
+        <div class="hero-right">
+
+            <div class="circle one"></div>
+
+            <div class="circle two"></div>
+
+            <div class="dashboard-preview">
+
+
+                <!-- Dashboard Header -->
+
+                <div class="dashboard-top">
+
+                    <div>
+
+                        <div class="dashboard-title">
+
+                            Dashboard
+
+                        </div>
+
+                    </div>
+
+                    <div class="user-circle"></div>
+
+                </div>
+
+
+
+                <!-- Dashboard Cards -->
+
+                <div class="dashboard-grid">
+
+                    <div class="dashboard-card">
+
+                        <h3>
+
+                            94%
+
+                        </h3>
+
+                        <p>
+
+                            ATS Score
+
+                        </p>
+
+                    </div>
+
+                    <div class="dashboard-card">
+
+                        <h3>
+
+                            126
+
+                        </h3>
+
+                        <p>
+
+                            Jobs Matched
+
+                        </p>
+
+                    </div>
+
+                    <div class="dashboard-card">
+
+                        <h3>
+
+                            38
+
+                        </h3>
+
+                        <p>
+
+                            Skills Found
+
+                        </p>
+
+                    </div>
+
+                    <div class="dashboard-card">
+
+                        <h3>
+
+                            12
+
+                        </h3>
+
+                        <p>
+
+                            Applications
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Analytics Chart -->
+
+                <div class="analytics-card mt-4">
+
+                    <div class="analytics-header">
+
+                        <h3>
+
+                            Resume Performance
+
+                        </h3>
+
+                        <div class="glass-badge">
+
+                            Live
+
+                        </div>
+
+                    </div>
+
+                    <div class="chart">
+
+                        <div class="chart-line"></div>
+
+                        <div class="chart-dot"></div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Floating Card -->
+
+                <div class="floating-card">
+
+                    <h4>
+
+                        Resume Strength
+
+                    </h4>
+
+                    <div class="progress">
+
+                        <span></span>
+
+                    </div>
+
+                    <p class="mt-2">
+
+                        Excellent Resume Quality
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- =====================================================
+                STATISTICS SECTION
+====================================================== -->
+
+<section class="stats section">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            Trusted By Thousands Of Professionals
+
+        </div>
+
+        <div class="section-subtitle">
+
+            Developers, students, recruiters and companies use our AI platform
+            to build stronger resumes, improve ATS scores and discover better
+            career opportunities.
+
+        </div>
+
+
+        <div class="stats-grid mt-5">
+
+            <div class="stat-box shadow-hover">
+
+                <div class="stat-icon">
+                    👥
+                </div>
+
+                <div class="stat-number">
+
+                    25K+
+
+                </div>
+
+                <div class="stat-label">
+
+                    Active Users
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-box shadow-hover">
+
+                <div class="stat-icon">
+                    📄
+                </div>
+
+                <div class="stat-number">
+
+                    40K+
+
+                </div>
+
+                <div class="stat-label">
+
+                    Resume Uploaded
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-box shadow-hover">
+
+                <div class="stat-icon">
+                    🎯
+                </div>
+
+                <div class="stat-number">
+
+                    96%
+
+                </div>
+
+                <div class="stat-label">
+
+                    ATS Accuracy
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-box shadow-hover">
+
+                <div class="stat-icon">
+                    💼
+                </div>
+
+                <div class="stat-number">
+
+                    12K+
+
+                </div>
+
+                <div class="stat-label">
+
+                    Companies
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+                TRUSTED COMPANIES
+====================================================== -->
+
+<section class="trusted section bg-light">
+
+    <div class="container">
+
+        <div class="trusted-title">
+
+            TRUSTED BY TOP COMPANIES
+
+        </div>
+
+        <div class="company-grid">
+
+            <div class="company-card">
+
+                <img
+                        src="images/google.svg"
+                        alt="Google">
+
+            </div>
+
+            <div class="company-card">
+
+                <img
+                        src="images/microsoft.svg"
+                        alt="Microsoft">
+
+            </div>
+
+            <div class="company-card">
+
+                <img
+                        src="images/amazon.svg"
+                        alt="Amazon">
+
+            </div>
+
+            <div class="company-card">
+
+                <img
+                        src="images/oracle.svg"
+                        alt="Oracle">
+
+            </div>
+
+            <div class="company-card">
+
+                <img
+                        src="images/netflix.svg"
+                        alt="Netflix">
+
+            </div>
+
+            <div class="company-card">
+
+                <img
+                        src="images/meta.svg"
+                        alt="Meta">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+                ANALYTICS SECTION
+====================================================== -->
+
+<section class="analytics section">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            AI Powered Resume Insights
+
+        </div>
+
+        <div class="section-subtitle">
+
+            Our intelligent engine continuously analyzes your resume,
+            identifies missing skills, measures ATS compatibility,
+            and recommends improvements to maximize interview chances.
+
+        </div>
+
+        <div class="analytics-wrapper mt-5">
+
+
+            <!-- ==========================
+                    LEFT CARD
+            =========================== -->
+
+            <div class="analytics-card">
+
+                <div class="analytics-header">
+
+                    <h3>
+
+                        Resume Analytics
+
+                    </h3>
+
+                    <div class="glass-badge">
+
+                        Live Report
+
+                    </div>
+
+                </div>
+
+                <div class="chart">
+
+                    <div class="chart-line"></div>
+
+                    <div class="chart-dot"></div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ==========================
+                    RIGHT WIDGETS
+            =========================== -->
+
+            <div class="widgets">
+
+
+                <div class="widget">
+
+                    <div class="widget-title">
+
+                        ATS Compatibility
+
+                    </div>
+
+                    <div class="widget-value">
+
+                        94%
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="widget">
+
+                    <div class="widget-title">
+
+                        Skill Coverage
+
+                    </div>
+
+                    <div class="skill">
+
+                        <div class="skill-header">
+
+                            <span>Java</span>
+
+                            <span>94%</span>
+
+                        </div>
+
+                        <div class="skill-bar">
+
+                            <div class="skill-fill java"></div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="skill">
+
+                        <div class="skill-header">
+
+                            <span>Spring Boot</span>
+
+                            <span>91%</span>
+
+                        </div>
+
+                        <div class="skill-bar">
+
+                            <div class="skill-fill spring"></div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="skill">
+
+                        <div class="skill-header">
+
+                            <span>React</span>
+
+                            <span>82%</span>
+
+                        </div>
+
+                        <div class="skill-bar">
+
+                            <div class="skill-fill react"></div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="skill">
+
+                        <div class="skill-header">
+
+                            <span>Python</span>
+
+                            <span>88%</span>
+
+                        </div>
+
+                        <div class="skill-bar">
+
+                            <div class="skill-fill python"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- =====================================================
+                FEATURES SECTION
+====================================================== -->
+
+<section id="features" class="features bg-light">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            Everything You Need To Get Hired Faster
+
+        </div>
+
+        <div class="section-subtitle">
+
+            Our AI platform helps you build a professional resume,
+            optimize ATS score, discover suitable jobs, and manage
+            your complete job search journey from one dashboard.
+
+        </div>
+
+        <div class="features-grid">
+
+
+            <!-- Feature 1 -->
+
+            <div class="feature-card hover-lift">
+
+                <div class="feature-icon">
+
+                    <img src="images/icons/resume.svg"
+                         alt="Resume Analysis">
+
+                </div>
+
+                <h3>
+
+                    AI Resume Analysis
+
+                </h3>
+
+                <p>
+
+                    Upload your resume and let Artificial Intelligence
+                    analyze formatting, keywords, grammar, readability,
+                    technical skills and recruiter friendliness.
+
+                </p>
+
+                <a href="#" class="feature-link">
+
+                    Learn More →
 
                 </a>
 
-                <a href="login.html" class="btn btn-secondary">
+            </div>
 
-                    Login
+
+
+            <!-- Feature 2 -->
+
+            <div class="feature-card hover-lift">
+
+                <div class="feature-icon">
+
+                    <img src="images/icons/ats.svg"
+                         alt="ATS">
+
+                </div>
+
+                <h3>
+
+                    ATS Score Checker
+
+                </h3>
+
+                <p>
+
+                    Improve your Applicant Tracking System score
+                    with detailed suggestions based on modern
+                    recruitment standards.
+
+                </p>
+
+                <a href="#" class="feature-link">
+
+                    Learn More →
+
+                </a>
+
+            </div>
+
+
+
+            <!-- Feature 3 -->
+
+            <div class="feature-card hover-lift">
+
+                <div class="feature-icon">
+
+                    <img src="images/icons/job.svg"
+                         alt="Job">
+
+                </div>
+
+                <h3>
+
+                    Smart Job Matching
+
+                </h3>
+
+                <p>
+
+                    AI compares your resume against thousands
+                    of jobs and recommends the best opportunities
+                    based on your skills.
+
+                </p>
+
+                <a href="#" class="feature-link">
+
+                    Learn More →
+
+                </a>
+
+            </div>
+
+
+
+            <!-- Feature 4 -->
+
+            <div class="feature-card hover-lift">
+
+                <div class="feature-icon">
+
+                    <img src="images/icons/skills.svg"
+                         alt="Skills">
+
+                </div>
+
+                <h3>
+
+                    Skill Gap Detection
+
+                </h3>
+
+                <p>
+
+                    Discover missing technologies and skills
+                    that recruiters expect for your dream role.
+
+                </p>
+
+                <a href="#" class="feature-link">
+
+                    Learn More →
+
+                </a>
+
+            </div>
+
+
+
+            <!-- Feature 5 -->
+
+            <div class="feature-card hover-lift">
+
+                <div class="feature-icon">
+
+                    <img src="images/icons/dashboard.svg"
+                         alt="Dashboard">
+
+                </div>
+
+                <h3>
+
+                    Career Dashboard
+
+                </h3>
+
+                <p>
+
+                    Track resumes, applications, interviews,
+                    ATS score, analytics and job recommendations
+                    from one place.
+
+                </p>
+
+                <a href="#" class="feature-link">
+
+                    Learn More →
+
+                </a>
+
+            </div>
+
+
+
+            <!-- Feature 6 -->
+
+            <div class="feature-card hover-lift">
+
+                <div class="feature-icon">
+
+                    <img src="images/icons/company.svg"
+                         alt="Company">
+
+                </div>
+
+                <h3>
+
+                    Company Portal
+
+                </h3>
+
+                <p>
+
+                    Recruiters can post jobs, manage candidates,
+                    shortlist resumes and communicate directly
+                    with applicants.
+
+                </p>
+
+                <a href="#" class="feature-link">
+
+                    Learn More →
 
                 </a>
 
@@ -108,61 +939,482 @@
 
 </section>
 
-<section class="features">
+
+
+<!-- =====================================================
+                WHY CHOOSE US
+====================================================== -->
+
+<section class="section bg-white">
 
     <div class="container">
 
-        <h2>
+        <div class="analytics-wrapper">
 
-            Platform Features
 
-        </h2>
+            <!-- LEFT -->
 
-        <br>
+            <div>
 
-        <div class="grid grid-3">
+                <div class="glass-badge">
 
-            <div class="card">
+                    Why Choose AI Resume?
 
-                <h3>AI Resume Parser</h3>
+                </div>
+
+                <h2 class="section-title text-left mt-3">
+
+                    Build Resume Like Top Software Engineers
+
+                </h2>
+
+                <p class="section-subtitle text-left mt-3">
+
+                    Stop guessing what recruiters want.
+                    Our AI engine evaluates your resume using
+                    modern hiring practices and provides
+                    actionable improvements that increase
+                    interview chances.
+
+                </p>
+
+                <div class="mt-5">
+
+                    <div class="glass-badge mb-3">
+
+                        ✅ AI Skill Extraction
+
+                    </div>
+
+                    <div class="glass-badge mb-3">
+
+                        ✅ Resume Keyword Optimization
+
+                    </div>
+
+                    <div class="glass-badge mb-3">
+
+                        ✅ ATS Compatibility Report
+
+                    </div>
+
+                    <div class="glass-badge mb-3">
+
+                        ✅ Resume Formatting Suggestions
+
+                    </div>
+
+                    <div class="glass-badge">
+
+                        ✅ Smart Job Recommendation
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- RIGHT -->
+
+            <div class="dashboard-preview">
+
+                <div class="dashboard-top">
+
+                    <div class="dashboard-title">
+
+                        Resume Summary
+
+                    </div>
+
+                    <div class="glass-badge">
+
+                        AI
+
+                    </div>
+
+                </div>
+
+                <div class="dashboard-grid">
+
+                    <div class="dashboard-card">
+
+                        <h3>
+
+                            94%
+
+                        </h3>
+
+                        <p>
+
+                            ATS Score
+
+                        </p>
+
+                    </div>
+
+                    <div class="dashboard-card">
+
+                        <h3>
+
+                            38
+
+                        </h3>
+
+                        <p>
+
+                            Skills
+
+                        </p>
+
+                    </div>
+
+                    <div class="dashboard-card">
+
+                        <h3>
+
+                            7
+
+                        </h3>
+
+                        <p>
+
+                            Missing Skills
+
+                        </p>
+
+                    </div>
+
+                    <div class="dashboard-card">
+
+                        <h3>
+
+                            126
+
+                        </h3>
+
+                        <p>
+
+                            Job Matches
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="analytics-card mt-4">
+
+                    <div class="widget-title">
+
+                        Resume Completion
+
+                    </div>
+
+                    <div class="progress mt-3">
+
+                        <span style="width:92%;"></span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+                AI WORKFLOW HIGHLIGHT
+====================================================== -->
+
+<section class="section bg-light">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            Powered By Artificial Intelligence
+
+        </div>
+
+        <div class="section-subtitle">
+
+            Every uploaded resume passes through our intelligent
+            pipeline before recommendations are generated.
+
+        </div>
+
+        <div class="workflow-grid mt-5">
+
+            <div class="workflow-card">
+
+                <div class="workflow-number">
+
+                    01
+
+                </div>
+
+                <div class="workflow-icon">
+
+                    <img src="images/icons/upload.svg"
+                         alt="Upload">
+
+                </div>
+
+                <h3>
+
+                    Upload Resume
+
+                </h3>
 
                 <p>
 
-                    Automatically extract skills,
-
-                    projects,
-
-                    education and experience.
+                    Upload PDF or DOCX resume securely.
 
                 </p>
 
             </div>
 
-            <div class="card">
 
-                <h3>ATS Score</h3>
+
+            <div class="workflow-card">
+
+                <div class="workflow-number">
+
+                    02
+
+                </div>
+
+                <div class="workflow-icon">
+
+                    <img src="images/icons/ai.svg"
+                         alt="AI">
+
+                </div>
+
+                <h3>
+
+                    AI Analysis
+
+                </h3>
 
                 <p>
 
-                    Improve your resume
+                    Extract skills, experience,
+                    education and keywords.
 
+                </p>
+
+            </div>
+
+
+
+            <div class="workflow-card">
+
+                <div class="workflow-number">
+
+                    03
+
+                </div>
+
+                <div class="workflow-icon">
+
+                    <img src="images/icons/target.svg"
+                         alt="Target">
+
+                </div>
+
+                <h3>
+
+                    ATS Optimization
+
+                </h3>
+
+                <p>
+
+                    Improve recruiter visibility
                     using AI recommendations.
 
                 </p>
 
             </div>
 
-            <div class="card">
 
-                <h3>Smart Job Matching</h3>
+
+            <div class="workflow-card">
+
+                <div class="workflow-number">
+
+                    04
+
+                </div>
+
+                <div class="workflow-icon">
+
+                    <img src="images/icons/job.svg"
+                         alt="Jobs">
+
+                </div>
+
+                <h3>
+
+                    Get Matched
+
+                </h3>
 
                 <p>
 
-                    Match your profile
+                    Receive personalized job
+                    recommendations instantly.
 
-                    with jobs
+                </p>
 
-                    using Machine Learning.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- =====================================================
+                TESTIMONIALS SECTION
+====================================================== -->
+
+<section class="section bg-white">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            Loved By Job Seekers
+
+        </div>
+
+        <div class="section-subtitle">
+
+            Thousands of professionals have improved their resumes,
+            increased ATS scores, and landed interviews using our
+            AI-powered platform.
+
+        </div>
+
+        <div class="features-grid mt-5">
+
+            <!-- Testimonial 1 -->
+
+            <div class="feature-card hover-lift">
+
+                <div class="flex items-center gap-20">
+
+                    <img src="images/users/user1.jpg"
+                         alt="User"
+                         style="width:70px;height:70px;border-radius:50%;object-fit:cover;">
+
+                    <div>
+
+                        <h3 style="font-size:22px;">
+
+                            Rahul Sharma
+
+                        </h3>
+
+                        <p>
+
+                            Java Developer
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <p class="mt-4">
+
+                    "Within one week my ATS score improved from
+                    61% to 94%. I started receiving interview calls
+                    from product companies."
+
+                </p>
+
+            </div>
+
+            <!-- Testimonial 2 -->
+
+            <div class="feature-card hover-lift">
+
+                <div class="flex items-center gap-20">
+
+                    <img src="images/users/user2.jpg"
+                         alt="User"
+                         style="width:70px;height:70px;border-radius:50%;object-fit:cover;">
+
+                    <div>
+
+                        <h3 style="font-size:22px;">
+
+                            Priya Patel
+
+                        </h3>
+
+                        <p>
+
+                            Software Engineer
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <p class="mt-4">
+
+                    "The AI suggestions were incredibly accurate.
+                    The resume looked much more professional after
+                    applying the recommendations."
+
+                </p>
+
+            </div>
+
+            <!-- Testimonial 3 -->
+
+            <div class="feature-card hover-lift">
+
+                <div class="flex items-center gap-20">
+
+                    <img src="images/users/user3.jpg"
+                         alt="User"
+                         style="width:70px;height:70px;border-radius:50%;object-fit:cover;">
+
+                    <div>
+
+                        <h3 style="font-size:22px;">
+
+                            Aman Verma
+
+                        </h3>
+
+                        <p>
+
+                            Full Stack Developer
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <p class="mt-4">
+
+                    "The job matching feature saved hours of searching.
+                    Almost every recommendation matched my profile."
 
                 </p>
 
@@ -174,25 +1426,47 @@
 
 </section>
 
-<section class="system-status">
+
+
+<!-- =====================================================
+                    CTA SECTION
+====================================================== -->
+
+<section class="cta">
 
     <div class="container">
 
-        <div class="card">
+        <div class="cta-box">
 
             <h2>
 
-                Backend Status
+                Ready To Build Your Dream Career?
 
             </h2>
 
-            <br>
+            <p>
 
-            <p id="status">
-
-                Checking server...
+                Upload your resume today and let Artificial Intelligence
+                improve your ATS score, identify missing skills,
+                and recommend the best jobs for your profile.
 
             </p>
+
+            <div class="cta-buttons">
+
+                <button class="btn btn-primary">
+
+                    Get Started Free
+
+                </button>
+
+                <button class="btn btn-secondary">
+
+                    Explore Features
+
+                </button>
+
+            </div>
 
         </div>
 
@@ -200,17 +1474,339 @@
 
 </section>
 
-<footer>
+
+
+<!-- =====================================================
+                NEWSLETTER
+====================================================== -->
+
+<section class="newsletter bg-light">
 
     <div class="container">
 
-        © 2026 AI Resume Platform
+        <div class="newsletter-card">
+
+            <div class="newsletter-content">
+
+                <h2>
+
+                    Stay Updated
+
+                </h2>
+
+                <p>
+
+                    Subscribe to receive career tips,
+                    resume optimization guides,
+                    interview preparation content,
+                    and product updates.
+
+                </p>
+
+            </div>
+
+            <form class="newsletter-form">
+
+                <input type="email"
+                       placeholder="Enter your email">
+
+                <button class="btn btn-primary">
+
+                    Subscribe
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+                    FAQ
+====================================================== -->
+
+<section class="section bg-white">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            Frequently Asked Questions
+
+        </div>
+
+        <div class="section-subtitle">
+
+            Everything you need to know before using
+            the AI Resume Platform.
+
+        </div>
+
+        <div class="mt-5">
+
+            <div class="feature-card mb-3">
+
+                <h3>
+
+                    Is my resume secure?
+
+                </h3>
+
+                <p>
+
+                    Yes. Your resume is securely stored and only
+                    accessible to your account.
+
+                </p>
+
+            </div>
+
+            <div class="feature-card mb-3">
+
+                <h3>
+
+                    How is ATS score calculated?
+
+                </h3>
+
+                <p>
+
+                    Our AI evaluates formatting, keywords,
+                    readability, skills and recruiter standards
+                    to generate an ATS compatibility score.
+
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <h3>
+
+                    Which file formats are supported?
+
+                </h3>
+
+                <p>
+
+                    PDF and DOCX are supported for resume upload.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+                    FOOTER
+====================================================== -->
+
+<footer class="footer">
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <!-- Brand -->
+
+            <div class="footer-brand">
+
+                <h3>
+
+                    AI Resume
+
+                </h3>
+
+                <p>
+
+                    Build ATS-friendly resumes,
+                    discover better jobs,
+                    improve interview chances,
+                    and manage your complete
+                    career journey using AI.
+
+                </p>
+
+                <div class="social-links">
+
+                    <a href="#"><img src="images/icons/github.svg" alt="GitHub"></a>
+
+                    <a href="#"><img src="images/icons/linkedin.svg" alt="LinkedIn"></a>
+
+                    <a href="#"><img src="images/icons/twitter.svg" alt="Twitter"></a>
+
+                    <a href="#"><img src="images/icons/youtube.svg" alt="YouTube"></a>
+
+                </div>
+
+            </div>
+
+            <!-- Product -->
+
+            <div class="footer-column">
+
+                <h4>
+
+                    Product
+
+                </h4>
+
+                <ul>
+
+                    <li><a href="#">Resume Analysis</a></li>
+
+                    <li><a href="#">ATS Score</a></li>
+
+                    <li><a href="#">Job Matching</a></li>
+
+                    <li><a href="#">Dashboard</a></li>
+
+                </ul>
+
+            </div>
+
+            <!-- Company -->
+
+            <div class="footer-column">
+
+                <h4>
+
+                    Company
+
+                </h4>
+
+                <ul>
+
+                    <li><a href="#">About</a></li>
+
+                    <li><a href="#">Careers</a></li>
+
+                    <li><a href="#">Contact</a></li>
+
+                    <li><a href="#">Blog</a></li>
+
+                </ul>
+
+            </div>
+
+            <!-- Support -->
+
+            <div class="footer-column">
+
+                <h4>
+
+                    Support
+
+                </h4>
+
+                <ul>
+
+                    <li><a href="#">Help Center</a></li>
+
+                    <li><a href="#">Privacy Policy</a></li>
+
+                    <li><a href="#">Terms & Conditions</a></li>
+
+                    <li><a href="#">Documentation</a></li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            <p>
+
+                © 2026 AI Resume & Job Matching Platform.
+                All Rights Reserved.
+
+            </p>
+
+            <div class="footer-bottom-links">
+
+                <a href="#">Privacy</a>
+
+                <a href="#">Terms</a>
+
+                <a href="#">Cookies</a>
+
+            </div>
+
+        </div>
 
     </div>
 
 </footer>
+<!-- =====================================================
+                BACK TO TOP BUTTON
+====================================================== -->
+
+<button
+        id="backToTop"
+        class="back-to-top"
+        aria-label="Back to Top">
+
+    <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2">
+
+        <path d="M18 15l-6-6-6 6"/>
+
+    </svg>
+
+</button>
+
+
+
+<!-- =====================================================
+                PAGE LOADER
+====================================================== -->
+
+<div id="pageLoader" class="page-loader">
+
+    <div class="loader">
+
+        <div class="loader-circle"></div>
+
+        <div class="loader-circle"></div>
+
+        <div class="loader-circle"></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+                JAVASCRIPT
+====================================================== -->
 
 <script src="js/app.js"></script>
+
+<script src="js/ui.js"></script>
+
+<script src="js/api.js"></script>
+
+<script src="js/components.js"></script>
 
 </body>
 

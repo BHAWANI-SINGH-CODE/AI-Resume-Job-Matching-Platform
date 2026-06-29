@@ -1,0 +1,11 @@
+    ___    ___
+   /   |  /   |
+  / /| | / /| |
+ / ___ |/ ___ |
+/_/  |_/_/  |_|
+
+AI Resume & Job Matching Platform
+
+Spring Boot Enterprise Edition
+
+Author : Bhawani Singh Rajput
