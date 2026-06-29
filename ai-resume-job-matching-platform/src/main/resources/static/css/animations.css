@@ -1,0 +1,77 @@
+/* =========================================================
+   ANIMATIONS.CSS
+   ========================================================= */
+
+.fade-in{
+
+    animation:fadeIn .5s ease;
+
+}
+
+.slide-up{
+
+    animation:slideUp .5s ease;
+
+}
+
+.scale{
+
+    animation:scale .4s ease;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+    }
+
+    to{
+
+        opacity:1;
+
+    }
+
+}
+
+@keyframes slideUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes scale{
+
+    from{
+
+        transform:scale(.9);
+
+        opacity:0;
+
+    }
+
+    to{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+}
