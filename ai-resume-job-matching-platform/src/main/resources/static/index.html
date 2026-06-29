@@ -2,9 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>AI Resume Platform</title>
 </head>
 <body>
+
+<h1>Loading...</h1>
+
+<script>
+
+    fetch("/api/v1/health")
+        .then(response=>response.json())
+        .then(data=>{
+
+            document.querySelector("h1").innerHTML=data.message;
+
+        });
+
+</script>
 
 </body>
 </html>
