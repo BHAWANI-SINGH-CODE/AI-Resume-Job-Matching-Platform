@@ -1,24 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <title>AI Resume Platform</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Resume & Job Matching Platform</title>
+
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+
 </head>
+
 <body>
 
-<h1>Loading...</h1>
+<header class="landing-header">
 
-<script>
+    <div class="container">
 
-    fetch("/api/v1/health")
-        .then(response=>response.json())
-        .then(data=>{
+        <div class="navbar">
 
-            document.querySelector("h1").innerHTML=data.message;
+            <div class="logo">
 
-        });
+                AI Resume
 
-</script>
+            </div>
+
+            <nav>
+
+                <a href="#">Home</a>
+
+                <a href="#">Features</a>
+
+                <a href="#">Jobs</a>
+
+                <a href="#">Pricing</a>
+
+                <a href="login.html">Login</a>
+
+                <a href="register.html" class="btn btn-primary">
+
+                    Register
+
+                </a>
+
+            </nav>
+
+        </div>
+
+    </div>
+
+</header>
+
+<section class="hero">
+
+    <div class="container">
+
+        <div class="hero-content fade-in">
+
+            <h1>
+
+                Build Better Resume.
+
+                Get Better Jobs.
+
+            </h1>
+
+            <p>
+
+                AI Powered Resume Analysis,
+
+                ATS Score,
+
+                Resume Suggestions,
+
+                Job Matching
+
+                in one platform.
+
+            </p>
+
+            <div style="margin-top:30px">
+
+                <a href="register.html" class="btn btn-primary">
+
+                    Get Started
+
+                </a>
+
+                <a href="login.html" class="btn btn-secondary">
+
+                    Login
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="features">
+
+    <div class="container">
+
+        <h2>
+
+            Platform Features
+
+        </h2>
+
+        <br>
+
+        <div class="grid grid-3">
+
+            <div class="card">
+
+                <h3>AI Resume Parser</h3>
+
+                <p>
+
+                    Automatically extract skills,
+
+                    projects,
+
+                    education and experience.
+
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>ATS Score</h3>
+
+                <p>
+
+                    Improve your resume
+
+                    using AI recommendations.
+
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Smart Job Matching</h3>
+
+                <p>
+
+                    Match your profile
+
+                    with jobs
+
+                    using Machine Learning.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="system-status">
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2>
+
+                Backend Status
+
+            </h2>
+
+            <br>
+
+            <p id="status">
+
+                Checking server...
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+
+    <div class="container">
+
+        © 2026 AI Resume Platform
+
+    </div>
+
+</footer>
+
+<script src="js/app.js"></script>
 
 </body>
+
 </html>
