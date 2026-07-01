@@ -8,16 +8,11 @@ async function checkServer() {
     }
 
     try {
-
         const response = await fetch("/api/v1/health");
         const data = await response.json();
-
-        status.innerHTML = "🟢 " + data.message;
-
+        status.textContent = "🟢 " + data.message;
     } catch (error) {
-
-        status.innerHTML = "🔴 Backend Offline";
-
+        status.textContent = "🔴 Backend Offline";
     }
 }
 
