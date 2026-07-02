@@ -9,7 +9,12 @@ import com.bhawanisingh.airesume.auth.enums.UserStatus;
 import com.bhawanisingh.airesume.auth.repository.UserRepository;
 import com.bhawanisingh.airesume.auth.security.JwtService;
 import com.bhawanisingh.airesume.auth.service.AuthService;
+import com.bhawanisingh.airesume.common.exception.DuplicateEmailException;
+import com.bhawanisingh.airesume.common.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +25,13 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
 
     @Override
     public AuthResponse register(RegisterRequest request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already registered.");
+            throw new DuplicateEmailException("Email already registered");
         }
 
         User user = User.builder()
@@ -50,7 +56,34 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse login(LoginRequest request) {
 
-        throw new UnsupportedOperationException("Login will be implemented in Sprint 2 Step 8");
+        Authentication authentication =
+                authenticationManager.authenticate(
+
+                        new UsernamePasswordAuthenticationToken(
+
+                                request.getEmail(),
+
+                                request.getPassword()
+
+                        )
+
+                );
+
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        String accessToken =
+                jwtService.generateToken(user.getEmail());
+
+        return AuthResponse
+
+                .builder()
+
+                .accessToken(accessToken)
+
+                .refreshToken("")
+
+                .build();
 
     }
 
