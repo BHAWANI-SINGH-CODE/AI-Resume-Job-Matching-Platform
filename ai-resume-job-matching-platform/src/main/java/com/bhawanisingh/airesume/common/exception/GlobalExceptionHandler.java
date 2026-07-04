@@ -14,71 +14,40 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(DuplicateEmailException.class)
-    public ResponseEntity<ApiResponse<Object>> handleDuplicateEmail(
-            DuplicateEmailException ex) {
-
-        return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(ApiResponse.error(ex.getMessage()));
-    }
-
-    @ExceptionHandler(PasswordMismatchException.class)
-    public ResponseEntity<ApiResponse<Object>> handlePasswordMismatch(
-            PasswordMismatchException ex) {
-
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.error(ex.getMessage()));
-    }
-
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiResponse<Object>> handleResourceNotFound(
-            ResourceNotFoundException ex) {
-
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ApiResponse<Object>> handleResourceNotFound(ResourceNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ApiResponse.error(ex.getMessage()));
     }
 
-    @ExceptionHandler(InvalidCredentialsException.class)
-    public ResponseEntity<ApiResponse<Object>> handleInvalidCredentials(
-            InvalidCredentialsException ex) {
-
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse<Object>> handleIllegalArgument(IllegalArgumentException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse.error(ex.getMessage()));
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ApiResponse<Object>> handleBadCredentials(
-            BadCredentialsException ex) {
-
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ApiResponse<Object>> handleBadCredentials(BadCredentialsException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(ApiResponse.error("Invalid email or password"));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<Object>> handleValidationException(
-            MethodArgumentNotValidException ex) {
+    public ResponseEntity<ApiResponse<Object>> handleValidation(MethodArgumentNotValidException ex) {
 
         Map<String, String> errors = new LinkedHashMap<>();
 
         ex.getBindingResult().getFieldErrors().forEach(error ->
-                errors.put(error.getField(), error.getDefaultMessage()));
+                errors.put(error.getField(), error.getDefaultMessage())
+        );
 
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse.error("Validation failed", errors));
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<Object>> handleGenericException(
-            Exception ex) {
-
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.error("Something went wrong"));
+    public ResponseEntity<ApiResponse<Object>> handleGeneric(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ApiResponse.error("Something went wrong: " + ex.getMessage()));
     }
 }
