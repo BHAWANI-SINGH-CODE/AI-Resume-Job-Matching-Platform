@@ -2,7 +2,7 @@ package com.bhawanisingh.airesume.resume.dto;
 
 import lombok.*;
 
-import java.util.UUID;
+
 
 @Getter
 @Setter
@@ -11,7 +11,7 @@ import java.util.UUID;
 @Builder
 public class ResumeUploadResponse {
 
-    private UUID resumeId;
+    private Long resumeId;
     private String fileName;
     private String fileType;
     private Long fileSize;

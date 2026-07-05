@@ -6,8 +6,6 @@ import com.bhawanisingh.airesume.resume.enums.ResumeStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,10 +20,6 @@ import java.util.UUID;
         }
 )
 public class Resume extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
 
     @Column(name = "original_file_name", nullable = false, length = 255)
     private String originalFileName;

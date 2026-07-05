@@ -50,4 +50,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ApiResponse.error("Something went wrong: " + ex.getMessage()));
     }
+
+    @ExceptionHandler(InvalidJobDataException.class)
+    public ResponseEntity<ApiResponse<Object>> handleInvalidJobDataException(InvalidJobDataException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.error(ex.getMessage()));
+    }
 }

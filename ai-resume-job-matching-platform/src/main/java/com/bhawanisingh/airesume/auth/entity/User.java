@@ -6,7 +6,7 @@ import com.bhawanisingh.airesume.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
+
 
 @Getter
 @Setter
@@ -29,8 +29,8 @@ import java.util.UUID;
 public class User extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "full_name",
             nullable = false,

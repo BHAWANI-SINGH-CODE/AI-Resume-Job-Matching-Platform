@@ -19,7 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -86,7 +86,7 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResumeResponse getResumeById(UUID resumeId, String userEmail) {
+    public ResumeResponse getResumeById(Long resumeId, String userEmail) {
 
         User user = getUserByEmail(userEmail);
         Resume resume = getActiveResumeByIdAndUser(resumeId, user);
@@ -96,7 +96,7 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     @Transactional
-    public void deleteResume(UUID resumeId, String userEmail) {
+    public void deleteResume(Long resumeId, String userEmail) {
 
         Resume resume = resumeRepository.findByIdAndUserEmailAndStatus(
                         resumeId,
@@ -135,7 +135,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public ResumeResponse markAsPrimary(UUID resumeId, String userEmail) {
+    public ResumeResponse markAsPrimary(Long resumeId, String userEmail) {
 
         User user = getUserByEmail(userEmail);
         Resume targetResume = getActiveResumeByIdAndUser(resumeId, user);
@@ -162,7 +162,7 @@ public class ResumeServiceImpl implements ResumeService {
                         new ResourceNotFoundException("User not found with email: " + email));
     }
 
-    private Resume getActiveResumeByIdAndUser(UUID resumeId, User user) {
+    private Resume getActiveResumeByIdAndUser(Long resumeId, User user) {
         Resume resume = resumeRepository.findByIdAndUser(resumeId, user)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Resume not found with id: " + resumeId));

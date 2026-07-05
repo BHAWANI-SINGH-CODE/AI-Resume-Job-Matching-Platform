@@ -7,15 +7,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-public interface ResumeRepository extends JpaRepository<Resume, UUID> {
+
+public interface ResumeRepository extends JpaRepository<Resume, Long> {
 
     List<Resume> findByUserAndStatusOrderByCreatedAtDesc(User user, ResumeStatus status);
 
-    Optional<Resume> findByIdAndUser(UUID id, User user);
+    Optional<Resume> findByIdAndUser(Long id, User user);
 
-    Optional<Resume> findByIdAndUserEmailAndStatus(UUID id, String email, ResumeStatus status);
+    Optional<Resume> findByIdAndUserEmailAndStatus(Long id, String email, ResumeStatus status);
 
     Optional<Resume> findByUserAndPrimaryResumeTrueAndStatus(User user, ResumeStatus status);
 

@@ -3,6 +3,7 @@ package com.bhawanisingh.airesume.auth.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -57,6 +58,15 @@ public class SecurityConfig {
                                 "/api/v1/health",
                                 "/api/v1/auth/**"
                         ).permitAll()
+
+                        // Job module public/protected read rules
+                        .requestMatchers(HttpMethod.GET, "/api/v1/jobs/all").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/jobs").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/jobs/*").permitAll()
+
+                        // Company module public read rules
+                        .requestMatchers(HttpMethod.GET, "/api/v1/companies").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/companies/*").permitAll()
 
                         .anyRequest()
                         .authenticated())

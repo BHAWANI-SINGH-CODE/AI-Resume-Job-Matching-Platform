@@ -19,7 +19,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/api/v1/resumes")
@@ -57,7 +57,7 @@ public class ResumeController {
 
     @GetMapping("/{resumeId}")
     public ResponseEntity<ApiResponse<ResumeResponse>> getResumeById(
-            @PathVariable UUID resumeId,
+            @PathVariable Long resumeId,
             Authentication authentication
     ) {
         String userEmail = authentication.getName();
@@ -71,7 +71,7 @@ public class ResumeController {
 
     @DeleteMapping("/{resumeId}")
     public ResponseEntity<ApiResponse<String>> deleteResume(
-            @PathVariable UUID resumeId,
+            @PathVariable Long resumeId,
             Authentication authentication
     ) {
         String userEmail = authentication.getName();
@@ -85,7 +85,7 @@ public class ResumeController {
 
     @PatchMapping("/{resumeId}/primary")
     public ResponseEntity<ApiResponse<ResumeResponse>> markResumeAsPrimary(
-            @PathVariable UUID resumeId,
+            @PathVariable Long resumeId,
             Authentication authentication
     ) {
         String userEmail = authentication.getName();
@@ -99,7 +99,7 @@ public class ResumeController {
 
     @GetMapping("/{resumeId}/download")
     public ResponseEntity<Resource> downloadResume(
-            @PathVariable UUID resumeId,
+            @PathVariable Long resumeId,
             Authentication authentication
     ) throws MalformedURLException {
 
