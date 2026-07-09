@@ -16,6 +16,11 @@ import com.bhawanisingh.airesume.resumeparse.entity.ParsedResumeEducation;
 import com.bhawanisingh.airesume.resumeparse.entity.ParsedResumeExperience;
 import com.bhawanisingh.airesume.resumeparse.entity.ParsedResumeSkill;
 import com.bhawanisingh.airesume.resumeparse.enums.ParsingStatus;
+import com.bhawanisingh.airesume.resumeparse.parser.engine.ResumeParsingOrchestrator;
+import com.bhawanisingh.airesume.resumeparse.parser.model.ParsedEducationData;
+import com.bhawanisingh.airesume.resumeparse.parser.model.ParsedExperienceData;
+import com.bhawanisingh.airesume.resumeparse.parser.model.ParsedSkillData;
+import com.bhawanisingh.airesume.resumeparse.parser.model.ResumeParseResult;
 import com.bhawanisingh.airesume.resumeparse.repository.ParsedResumeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,6 +38,7 @@ public class ResumeParsingServiceImpl implements ResumeParsingService {
     private final ResumeRepository resumeRepository;
     private final UserRepository userRepository;
     private final ParsedResumeRepository parsedResumeRepository;
+    private final ResumeParsingOrchestrator resumeParsingOrchestrator;
 
     @Override
     public ResumeParsingTriggerResponse triggerResumeParsing(Long resumeId, String userEmail) {
@@ -47,17 +53,38 @@ public class ResumeParsingServiceImpl implements ResumeParsingService {
         parsedResume.setParseError(null);
         parsedResumeRepository.save(parsedResume);
 
-        runMockParsing(parsedResume, resume);
+        try {
+            ResumeParseResult parseResult = resumeParsingOrchestrator.parseResume(resume);
+            applyParseResult(parsedResume, parseResult);
 
-        ParsedResume savedParsedResume = parsedResumeRepository.save(parsedResume);
+            ParsedResume savedParsedResume = parsedResumeRepository.save(parsedResume);
 
-        return ResumeParsingTriggerResponse.builder()
-                .parsedResumeId(savedParsedResume.getId())
-                .resumeId(resume.getId())
-                .parsingStatus(savedParsedResume.getParsingStatus())
-                .message("Resume parsing completed successfully")
-                .parsedAt(savedParsedResume.getParsedAt())
-                .build();
+            return ResumeParsingTriggerResponse.builder()
+                    .parsedResumeId(savedParsedResume.getId())
+                    .resumeId(resume.getId())
+                    .parsingStatus(savedParsedResume.getParsingStatus())
+                    .message("Resume parsing completed successfully")
+                    .parsedAt(savedParsedResume.getParsedAt())
+                    .build();
+
+        } catch (Exception ex) {
+            parsedResume.clearSkills();
+            parsedResume.clearEducations();
+            parsedResume.clearExperiences();
+            parsedResume.setParsingStatus(ParsingStatus.FAILED);
+            parsedResume.setParseError(ex.getMessage());
+            parsedResume.setParsedAt(LocalDateTime.now());
+
+            ParsedResume failedParsedResume = parsedResumeRepository.save(parsedResume);
+
+            return ResumeParsingTriggerResponse.builder()
+                    .parsedResumeId(failedParsedResume.getId())
+                    .resumeId(resume.getId())
+                    .parsingStatus(failedParsedResume.getParsingStatus())
+                    .message("Resume parsing failed")
+                    .parsedAt(failedParsedResume.getParsedAt())
+                    .build();
+        }
     }
 
     @Override
@@ -100,53 +127,74 @@ public class ResumeParsingServiceImpl implements ResumeParsingService {
         return parsedResume;
     }
 
-    private void runMockParsing(ParsedResume parsedResume, Resume resume) {
-
+    private void applyParseResult(ParsedResume parsedResume, ResumeParseResult parseResult) {
         parsedResume.clearSkills();
         parsedResume.clearEducations();
         parsedResume.clearExperiences();
 
-        parsedResume.setRawText(buildMockRawText(resume));
-        parsedResume.setProfessionalSummary("Mock parsed summary for resume: " + resume.getOriginalFileName());
-        parsedResume.setCurrentTitle("Not parsed yet");
-        parsedResume.setCurrentCompany("Not parsed yet");
-        parsedResume.setPhone(null);
-        parsedResume.setLocation(null);
-        parsedResume.setLinkedinUrl(null);
-        parsedResume.setGithubUrl(null);
-        parsedResume.setPortfolioUrl(null);
-        parsedResume.setTotalExperienceYears(null);
+        parsedResume.setRawText(parseResult.getRawText());
+        parsedResume.setProfessionalSummary(parseResult.getProfessionalSummary());
+        parsedResume.setCurrentTitle(parseResult.getCurrentTitle());
+        parsedResume.setCurrentCompany(parseResult.getCurrentCompany());
+        parsedResume.setPhone(parseResult.getPhone());
+        parsedResume.setLocation(parseResult.getLocation());
+        parsedResume.setLinkedinUrl(parseResult.getLinkedinUrl());
+        parsedResume.setGithubUrl(parseResult.getGithubUrl());
+        parsedResume.setPortfolioUrl(parseResult.getPortfolioUrl());
+        parsedResume.setTotalExperienceYears(parseResult.getTotalExperienceYears());
         parsedResume.setParseError(null);
         parsedResume.setParsedAt(LocalDateTime.now());
         parsedResume.setParsingStatus(ParsingStatus.PARSED);
 
-        addMockSkills(parsedResume);
+        addSkills(parsedResume, parseResult.getSkills());
+        addEducations(parsedResume, parseResult.getEducations());
+        addExperiences(parsedResume, parseResult.getExperiences());
     }
 
-    private String buildMockRawText(Resume resume) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Mock parsed content for resume file: ")
-                .append(resume.getOriginalFileName());
-
-        if (resume.getFileType() != null) {
-            sb.append(" | fileType=").append(resume.getFileType());
+    private void addSkills(ParsedResume parsedResume, List<ParsedSkillData> skills) {
+        if (skills == null || skills.isEmpty()) {
+            return;
         }
 
-        if (resume.getFileSize() != null) {
-            sb.append(" | fileSize=").append(resume.getFileSize());
-        }
-
-        return sb.toString();
-    }
-
-    private void addMockSkills(ParsedResume parsedResume) {
-        List<String> defaultSkills = List.of("Java", "Spring Boot", "SQL");
-
-        for (String skillName : defaultSkills) {
+        for (ParsedSkillData skillData : skills) {
             ParsedResumeSkill skill = new ParsedResumeSkill();
-            skill.setSkillName(skillName);
-            skill.setNormalizedSkillName(skillName.toLowerCase());
+            skill.setSkillName(skillData.getSkillName());
+            skill.setNormalizedSkillName(skillData.getNormalizedSkillName());
             parsedResume.addSkill(skill);
+        }
+    }
+
+    private void addEducations(ParsedResume parsedResume, List<ParsedEducationData> educations) {
+        if (educations == null || educations.isEmpty()) {
+            return;
+        }
+
+        for (ParsedEducationData educationData : educations) {
+            ParsedResumeEducation education = new ParsedResumeEducation();
+            education.setInstitutionName(educationData.getInstitutionName());
+            education.setDegree(educationData.getDegree());
+            education.setFieldOfStudy(educationData.getFieldOfStudy());
+            education.setStartYear(educationData.getStartYear());
+            education.setEndYear(educationData.getEndYear());
+            education.setGrade(educationData.getGrade());
+            parsedResume.addEducation(education);
+        }
+    }
+
+    private void addExperiences(ParsedResume parsedResume, List<ParsedExperienceData> experiences) {
+        if (experiences == null || experiences.isEmpty()) {
+            return;
+        }
+
+        for (ParsedExperienceData experienceData : experiences) {
+            ParsedResumeExperience experience = new ParsedResumeExperience();
+            experience.setCompanyName(experienceData.getCompanyName());
+            experience.setJobTitle(experienceData.getJobTitle());
+            experience.setStartDate(experienceData.getStartDate());
+            experience.setEndDate(experienceData.getEndDate());
+            experience.setCurrentlyWorking(experienceData.getCurrentlyWorking());
+            experience.setDescription(experienceData.getDescription());
+            parsedResume.addExperience(experience);
         }
     }
 
