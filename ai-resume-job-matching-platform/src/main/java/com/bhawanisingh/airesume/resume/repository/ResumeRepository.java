@@ -8,12 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-
 public interface ResumeRepository extends JpaRepository<Resume, Long> {
 
     List<Resume> findByUserAndStatusOrderByCreatedAtDesc(User user, ResumeStatus status);
 
     Optional<Resume> findByIdAndUser(Long id, User user);
+
+    Optional<Resume> findByIdAndUserAndStatus(Long id, User user, ResumeStatus status);
 
     Optional<Resume> findByIdAndUserEmailAndStatus(Long id, String email, ResumeStatus status);
 
