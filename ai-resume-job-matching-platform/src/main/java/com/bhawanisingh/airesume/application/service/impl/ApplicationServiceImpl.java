@@ -19,6 +19,8 @@ import com.bhawanisingh.airesume.common.exception.ResourceNotFoundException;
 import com.bhawanisingh.airesume.job.entity.Job;
 import com.bhawanisingh.airesume.job.enums.JobStatus;
 import com.bhawanisingh.airesume.job.repository.JobRepository;
+import com.bhawanisingh.airesume.notification.enums.NotificationType;
+import com.bhawanisingh.airesume.notification.service.NotificationService;
 import com.bhawanisingh.airesume.resume.entity.Resume;
 import com.bhawanisingh.airesume.resume.enums.ResumeStatus;
 import com.bhawanisingh.airesume.resume.repository.ResumeRepository;
@@ -43,6 +45,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final UserRepository userRepository;
     private final ResumeRepository resumeRepository;
     private final ApplicationMapper applicationMapper;
+    private final NotificationService notificationService;
 
     @Override
     public ApplicationResponse applyToJob(Long jobId, JobApplicationRequest request) {
@@ -68,6 +71,9 @@ public class ApplicationServiceImpl implements ApplicationService {
         application.setStatus(ApplicationStatus.APPLIED);
 
         Application savedApplication = applicationRepository.save(application);
+
+        createApplicationSubmittedNotification(candidate, job, savedApplication);
+
         return applicationMapper.toApplicationResponse(savedApplication);
     }
 
@@ -123,8 +129,12 @@ public class ApplicationServiceImpl implements ApplicationService {
         validateJobOwnership(application.getJob(), currentUser);
         validateStatusTransition(application.getStatus(), request.getStatus());
 
+        ApplicationStatus oldStatus = application.getStatus();
         application.setStatus(request.getStatus());
+
         Application updatedApplication = applicationRepository.save(application);
+
+        createApplicationStatusUpdatedNotification(updatedApplication, oldStatus, request.getStatus());
 
         return applicationMapper.toApplicationResponse(updatedApplication);
     }
@@ -197,6 +207,75 @@ public class ApplicationServiceImpl implements ApplicationService {
                 .rejectedCount(applicationRepository.countByJob_PostedByUserIdAndStatus(recruiterId, ApplicationStatus.REJECTED))
                 .hiredCount(applicationRepository.countByJob_PostedByUserIdAndStatus(recruiterId, ApplicationStatus.HIRED))
                 .build();
+    }
+
+    private void createApplicationSubmittedNotification(User candidate, Job job, Application application) {
+        String jobTitle = job.getTitle() != null ? job.getTitle() : "job";
+        String companyName = job.getCompanyName() != null ? job.getCompanyName() : "the company";
+
+        notificationService.createNotification(
+                candidate.getId(),
+                "Application submitted",
+                "Your application for " + jobTitle + " at " + companyName + " has been submitted successfully.",
+                NotificationType.APPLICATION_SUBMITTED,
+                application.getId(),
+                "APPLICATION"
+        );
+    }
+
+    private void createApplicationStatusUpdatedNotification(
+            Application application,
+            ApplicationStatus oldStatus,
+            ApplicationStatus newStatus
+    ) {
+        User candidate = application.getCandidate();
+        Job job = application.getJob();
+
+        if (candidate == null || candidate.getId() == null || job == null) {
+            return;
+        }
+
+        String jobTitle = job.getTitle() != null ? job.getTitle() : "job";
+        String companyName = job.getCompanyName() != null ? job.getCompanyName() : "the company";
+
+        String title;
+        String message;
+        NotificationType notificationType;
+
+        switch (newStatus) {
+            case REVIEWED -> {
+                title = "Application reviewed";
+                message = "Your application for " + jobTitle + " at " + companyName + " has been reviewed.";
+                notificationType = NotificationType.APPLICATION_REVIEWED;
+            }
+            case SHORTLISTED -> {
+                title = "Application shortlisted";
+                message = "Congratulations! You have been shortlisted for " + jobTitle + " at " + companyName + ".";
+                notificationType = NotificationType.APPLICATION_SHORTLISTED;
+            }
+            case REJECTED -> {
+                title = "Application update";
+                message = "Your application for " + jobTitle + " at " + companyName + " has been rejected.";
+                notificationType = NotificationType.APPLICATION_REJECTED;
+            }
+            case HIRED -> {
+                title = "Application hired";
+                message = "Congratulations! You have been selected for " + jobTitle + " at " + companyName + ".";
+                notificationType = NotificationType.APPLICATION_HIRED;
+            }
+            default -> {
+                return;
+            }
+        }
+
+        notificationService.createNotification(
+                candidate.getId(),
+                title,
+                message,
+                notificationType,
+                application.getId(),
+                "APPLICATION"
+        );
     }
 
     private void validateCandidateCanApply(User user) {

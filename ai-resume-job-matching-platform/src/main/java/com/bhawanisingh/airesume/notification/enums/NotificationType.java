@@ -1,0 +1,14 @@
+package com.bhawanisingh.airesume.notification.enums;
+
+public enum NotificationType {
+
+    APPLICATION_SUBMITTED,
+    APPLICATION_STATUS_UPDATED,
+    APPLICATION_REVIEWED,
+    APPLICATION_SHORTLISTED,
+    APPLICATION_REJECTED,
+    APPLICATION_HIRED,
+
+    RESUME_PARSED,
+    RESUME_PARSE_FAILED
+}

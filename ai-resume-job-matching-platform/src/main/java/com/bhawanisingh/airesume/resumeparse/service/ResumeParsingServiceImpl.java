@@ -3,6 +3,8 @@ package com.bhawanisingh.airesume.resumeparse.service;
 import com.bhawanisingh.airesume.auth.entity.User;
 import com.bhawanisingh.airesume.auth.repository.UserRepository;
 import com.bhawanisingh.airesume.common.exception.ResourceNotFoundException;
+import com.bhawanisingh.airesume.notification.enums.NotificationType;
+import com.bhawanisingh.airesume.notification.service.NotificationService;
 import com.bhawanisingh.airesume.resume.entity.Resume;
 import com.bhawanisingh.airesume.resume.enums.ResumeStatus;
 import com.bhawanisingh.airesume.resume.repository.ResumeRepository;
@@ -39,6 +41,7 @@ public class ResumeParsingServiceImpl implements ResumeParsingService {
     private final UserRepository userRepository;
     private final ParsedResumeRepository parsedResumeRepository;
     private final ResumeParsingOrchestrator resumeParsingOrchestrator;
+    private final NotificationService notificationService;
 
     @Override
     public ResumeParsingTriggerResponse triggerResumeParsing(Long resumeId, String userEmail) {
@@ -59,6 +62,8 @@ public class ResumeParsingServiceImpl implements ResumeParsingService {
 
             ParsedResume savedParsedResume = parsedResumeRepository.save(parsedResume);
 
+            createResumeParsingSuccessNotification(user, resume, savedParsedResume);
+
             return ResumeParsingTriggerResponse.builder()
                     .parsedResumeId(savedParsedResume.getId())
                     .resumeId(resume.getId())
@@ -76,6 +81,8 @@ public class ResumeParsingServiceImpl implements ResumeParsingService {
             parsedResume.setParsedAt(LocalDateTime.now());
 
             ParsedResume failedParsedResume = parsedResumeRepository.save(parsedResume);
+
+            createResumeParsingFailureNotification(user, resume, failedParsedResume, ex);
 
             return ResumeParsingTriggerResponse.builder()
                     .parsedResumeId(failedParsedResume.getId())
@@ -100,6 +107,38 @@ public class ResumeParsingServiceImpl implements ResumeParsingService {
                 ));
 
         return mapToParsedResumeResponse(parsedResume);
+    }
+
+    private void createResumeParsingSuccessNotification(User user, Resume resume, ParsedResume parsedResume) {
+        String fileName = resume.getOriginalFileName() != null ? resume.getOriginalFileName() : "resume";
+
+        notificationService.createNotification(
+                user.getId(),
+                "Resume parsed successfully",
+                "Your resume " + fileName + " has been parsed successfully.",
+                NotificationType.RESUME_PARSED,
+                parsedResume.getId(),
+                "PARSED_RESUME"
+        );
+    }
+
+    private void createResumeParsingFailureNotification(
+            User user,
+            Resume resume,
+            ParsedResume parsedResume,
+            Exception exception
+    ) {
+        String fileName = resume.getOriginalFileName() != null ? resume.getOriginalFileName() : "resume";
+        String errorMessage = exception.getMessage() != null ? exception.getMessage() : "Unknown parsing error";
+
+        notificationService.createNotification(
+                user.getId(),
+                "Resume parsing failed",
+                "Parsing failed for resume " + fileName + ". Reason: " + errorMessage,
+                NotificationType.RESUME_PARSE_FAILED,
+                parsedResume.getId(),
+                "PARSED_RESUME"
+        );
     }
 
     private User getUserByEmail(String email) {
