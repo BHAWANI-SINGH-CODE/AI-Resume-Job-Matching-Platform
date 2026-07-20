@@ -1,5 +1,6 @@
 package com.bhawanisingh.airesume.resumeparse.service;
 
+import com.bhawanisingh.airesume.ai.ResumeRatingService;
 import com.bhawanisingh.airesume.auth.entity.User;
 import com.bhawanisingh.airesume.auth.repository.UserRepository;
 import com.bhawanisingh.airesume.common.exception.ResourceNotFoundException;
@@ -37,6 +38,7 @@ import java.util.List;
 @Transactional
 public class ResumeParsingServiceImpl implements ResumeParsingService {
 
+    private final ResumeRatingService resumeRatingService;
     private final ResumeRepository resumeRepository;
     private final UserRepository userRepository;
     private final ParsedResumeRepository parsedResumeRepository;
@@ -60,8 +62,9 @@ public class ResumeParsingServiceImpl implements ResumeParsingService {
             ResumeParseResult parseResult = resumeParsingOrchestrator.parseResume(resume);
             applyParseResult(parsedResume, parseResult);
 
-            ParsedResume savedParsedResume = parsedResumeRepository.save(parsedResume);
+            int score = resumeRatingService.calculatePerfectionScore(parsedResume);
 
+            ParsedResume savedParsedResume = parsedResumeRepository.save(parsedResume);
             createResumeParsingSuccessNotification(user, resume, savedParsedResume);
 
             return ResumeParsingTriggerResponse.builder()
@@ -167,6 +170,8 @@ public class ResumeParsingServiceImpl implements ResumeParsingService {
     }
 
     private void applyParseResult(ParsedResume parsedResume, ResumeParseResult parseResult) {
+        ParsedResume savedParsedResume = parsedResumeRepository.save(parsedResume);
+        int score = resumeRatingService.calculatePerfectionScore(savedParsedResume);
         parsedResume.clearSkills();
         parsedResume.clearEducations();
         parsedResume.clearExperiences();

@@ -5,5 +5,6 @@ import com.bhawanisingh.airesume.resumeparse.parser.model.ResumeParseResult;
 
 public interface ResumeParserEngine {
 
-    ResumeParseResult parse(Resume resume);
+    ResumeParseResult parseResume(Resume resume);
+
 }

@@ -7,32 +7,75 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
-@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    /*
+     * ============================================================
+     * Authentication
+     * ============================================================
+     */
+
+    List<User> findAllByOrderByCreatedAtDesc();
     Optional<User> findByEmail(String email);
 
     boolean existsByEmail(String email);
 
+    /*
+     * ============================================================
+     * Profile
+     * ============================================================
+     */
+
+    Optional<User> findByIdAndStatus(Long id, UserStatus status);
+
+    /*
+     * ============================================================
+     * Dashboard Counts
+     * ============================================================
+     */
+
     long countByRole(Role role);
+
+    long countByStatus(UserStatus status);
+
+    /*
+     * ============================================================
+     * Admin Search
+     * ============================================================
+     */
 
     @Query("""
             SELECT u
             FROM User u
-            WHERE (:search IS NULL
-                    OR LOWER(u.fullName) LIKE LOWER(CONCAT('%', :search, '%'))
-                    OR LOWER(u.email) LIKE LOWER(CONCAT('%', :search, '%')))
-              AND (:role IS NULL OR u.role = :role)
-              AND (:status IS NULL OR u.status = :status)
+            WHERE
+                (
+                    :keyword IS NULL
+                    OR :keyword = ''
+                    OR LOWER(u.fullName) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                    OR LOWER(u.email) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                )
+            AND
+                (
+                    :role IS NULL
+                    OR u.role = :role
+                )
+            AND
+                (
+                    :status IS NULL
+                    OR u.status = :status
+                )
+            ORDER BY u.createdAt DESC
             """)
     Page<User> searchAdminUsers(
-            String search,
-            Role role,
-            UserStatus status,
+            @Param("keyword") String keyword,
+            @Param("role") Role role,
+            @Param("status") UserStatus status,
             Pageable pageable
     );
+
 }

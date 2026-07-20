@@ -1,5 +1,6 @@
 package com.bhawanisingh.airesume.auth.dto;
 
+import com.bhawanisingh.airesume.auth.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -26,5 +27,7 @@ public class RegisterRequest {
 
     @NotBlank(message = "Confirm password is required")
     private String confirmPassword;
+
+    private Role role;
 
 }

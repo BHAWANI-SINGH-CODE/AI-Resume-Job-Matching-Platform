@@ -18,12 +18,20 @@ import java.time.LocalDateTime;
 public class AdminUserResponse {
 
     private Long id;
+
     private String fullName;
+
     private String email;
+
     private Role role;
+
     private UserStatus status;
+
     private Boolean emailVerified;
+
     private String profileImageUrl;
+
     private LocalDateTime createdAt;
+
     private LocalDateTime updatedAt;
 }

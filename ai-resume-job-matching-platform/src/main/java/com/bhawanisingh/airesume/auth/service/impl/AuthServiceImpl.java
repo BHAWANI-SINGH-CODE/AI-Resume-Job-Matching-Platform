@@ -34,11 +34,14 @@ public class AuthServiceImpl implements AuthService {
             throw new DuplicateEmailException("Email already registered");
         }
 
+        // Dynamic Role Assignment: Frontend se aane wala role lo, warna default USER banao
+        Role userRole = request.getRole() != null ? request.getRole() : Role.USER;
+
         User user = User.builder()
                 .fullName(request.getFullName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(userRole) // <--- UPDATED: Ab yeh dynamically set hoga
                 .status(UserStatus.ACTIVE)
                 .emailVerified(false)
                 .build();

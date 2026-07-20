@@ -1,5 +1,7 @@
 package com.bhawanisingh.airesume.job.service;
 
+import com.bhawanisingh.airesume.auth.entity.User;
+import com.bhawanisingh.airesume.auth.repository.UserRepository;
 import com.bhawanisingh.airesume.common.exception.ResourceNotFoundException;
 import com.bhawanisingh.airesume.common.exception.InvalidJobDataException;
 import com.bhawanisingh.airesume.job.dto.JobCreateRequest;
@@ -9,6 +11,10 @@ import com.bhawanisingh.airesume.job.dto.JobUpdateRequest;
 import com.bhawanisingh.airesume.job.entity.Job;
 import com.bhawanisingh.airesume.job.enums.JobStatus;
 import com.bhawanisingh.airesume.job.repository.JobRepository;
+import com.bhawanisingh.airesume.notification.entity.Notification;
+import com.bhawanisingh.airesume.notification.enums.NotificationStatus;
+import com.bhawanisingh.airesume.notification.enums.NotificationType;
+import com.bhawanisingh.airesume.notification.repository.NotificationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +25,16 @@ import java.util.List;
 public class JobServiceImpl implements JobService {
 
     private final JobRepository jobRepository;
+    private final NotificationRepository notificationRepository;
+    private final UserRepository userRepository;
 
-    public JobServiceImpl(JobRepository jobRepository) {
+    // Yahan humne dono nayi repositories inject kar di hain
+    public JobServiceImpl(JobRepository jobRepository,
+                          NotificationRepository notificationRepository,
+                          UserRepository userRepository) {
         this.jobRepository = jobRepository;
+        this.notificationRepository = notificationRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -46,6 +59,27 @@ public class JobServiceImpl implements JobService {
         job.setDeleted(false);
 
         Job savedJob = jobRepository.save(job);
+
+        // --- THE FIX: NOTIFICATION BROADCAST LOGIC ---
+        List<User> allUsers = userRepository.findAll();
+
+        for (User user : allUsers) {
+            Notification notification = new Notification();
+            notification.setTitle("New Job Posted!");
+            notification.setMessage("A new job for " + savedJob.getTitle() + " has been posted by " + savedJob.getCompanyName() + ".");
+            notification.setStatus(NotificationStatus.UNREAD);
+
+            // 1. ERROR FIX: setUserId ki jagah setUser(user)
+            notification.setUser(user);
+
+            // 2. CRITICAL FIX: Tumhari entity mein 'type' nullable=false hai
+            // Note: 'NotificationType' enum mein jo bhi tumhari value ho (jaise SYSTEM, JOB_ALERT),
+            // usko yahan daal dena. Maine example ke liye .SYSTEM likha hai.
+            notification.setType(NotificationType.NEW_JOB_POSTED);
+
+            notificationRepository.save(notification);
+        }
+
         return mapToResponse(savedJob);
     }
 

@@ -2,9 +2,100 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume & ATS | AI Resume</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-slate-50 flex h-screen overflow-hidden">
 
+<!-- Sidebar placeholder (Keep your existing sidebar if you have one, or use this minimal one) -->
+<aside class="w-64 bg-white border-r border-slate-200 flex flex-col justify-between hidden md:flex">
+    <div class="p-6"><h1 class="text-2xl font-bold text-blue-600">AI Resume</h1></div>
+    <nav class="flex-1 px-4 space-y-2">
+        <a href="/dashboard.html" class="block px-4 py-2 text-slate-600 hover:bg-slate-50 rounded-lg">Dashboard</a>
+        <a href="/jobs.html" class="block px-4 py-2 text-slate-600 hover:bg-slate-50 rounded-lg">Search Jobs</a>
+        <a href="/applications.html" class="block px-4 py-2 text-slate-600 hover:bg-slate-50 rounded-lg">My Applications</a>
+        <a href="/resume.html" class="block px-4 py-2 bg-blue-50 text-blue-700 rounded-lg font-medium">Resume & ATS</a>
+    </nav>
+    <div class="p-4 border-t"><button onclick="localStorage.clear(); window.location.href='/login.html'" class="w-full text-left text-red-500 font-medium px-4">Logout</button></div>
+</aside>
+
+<main class="flex-1 flex flex-col h-screen overflow-hidden">
+    <header class="bg-white shadow-sm border-b border-slate-200 h-16 flex justify-between items-center px-8">
+        <h2 class="text-xl font-bold text-slate-800">Resume Manager & ATS Scorer</h2>
+    </header>
+
+    <div class="flex-1 overflow-y-auto p-8">
+        <div class="max-w-4xl mx-auto space-y-8">
+
+            <!-- Upload Section -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <h3 class="font-bold text-slate-800 mb-4">Upload New Resume</h3>
+                <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center hover:bg-slate-50 transition cursor-pointer relative">
+                    <input type="file" id="resumeFile" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept=".pdf,.doc,.docx" onchange="updateFileName()">
+                    <div class="text-slate-500">
+                        <svg class="mx-auto h-12 w-12 mb-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                        <p class="font-medium">Click to browse or drag file here</p>
+                        <p class="text-xs mt-1">PDF, DOC, DOCX (Max 5MB)</p>
+                    </div>
+                </div>
+                <p id="selectedFileName" class="text-sm font-semibold text-blue-600 mt-3 text-center hidden"></p>
+                <button id="uploadBtn" onclick="handleUploadAndParse()" class="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg hidden transition">Upload & Analyze with AI</button>
+            </div>
+
+            <div id="loadingSection" class="hidden text-center py-8">
+                <p class="text-blue-600 font-bold animate-pulse">AI is reading your resume... Please wait.</p>
+            </div>
+
+            <!-- ATS Report Section -->
+            <div id="atsReportSection" class="hidden space-y-6">
+                <h3 class="text-xl font-bold text-slate-800 border-b pb-2">ATS Extraction Report</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Score Box -->
+                    <div class="bg-white border-2 border-blue-500 rounded-xl p-6 text-center shadow-sm">
+                        <div class="text-sm font-bold text-slate-500 uppercase">Perfection Score</div>
+                        <div class="text-5xl font-black text-slate-800 my-2"><span id="resultScore">0</span><span class="text-xl text-slate-400">/100</span></div>
+                        <div class="text-xs font-bold text-green-600 bg-green-100 inline-block px-3 py-1 rounded-full">Parsing Successful</div>
+                    </div>
+
+                    <!-- Basic Info Box -->
+                    <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                        <div class="text-sm font-bold text-slate-500 uppercase mb-3">Extracted Profile</div>
+                        <ul class="space-y-2 text-sm text-slate-700">
+                            <li><strong>Title:</strong> <span id="resultTitle"></span></li>
+                            <li><strong>Experience:</strong> <span id="resultExp"></span></li>
+                            <li><strong>Location:</strong> <span id="resultLocation"></span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Details Box (Skills, Education, Projects) -->
+                <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-6">
+
+                    <div>
+                        <div class="text-sm font-bold text-slate-500 uppercase mb-3">Top Extracted Skills</div>
+                        <div id="resultSkills" class="flex flex-wrap gap-2"></div>
+                    </div>
+
+                    <div class="border-t pt-4">
+                        <div class="text-sm font-bold text-slate-500 uppercase mb-3">Education Found</div>
+                        <div id="resultEdu" class="text-sm text-slate-700"></div>
+                    </div>
+
+                    <div class="border-t pt-4">
+                        <div class="text-sm font-bold text-slate-500 uppercase mb-3">Projects / Experience Highlights</div>
+                        <div id="resultProjects" class="text-sm text-slate-700"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script src="/js/api.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/resume.js"></script>
 </body>
 </html>

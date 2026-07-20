@@ -4,45 +4,84 @@ import com.bhawanisingh.airesume.application.entity.Application;
 import com.bhawanisingh.airesume.application.entity.ApplicationStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ApplicationRepository extends JpaRepository<Application, Long> {
 
+    /*
+     * ============================================================
+     * Candidate APIs
+     * ============================================================
+     */
+
     boolean existsByCandidate_IdAndJob_Id(Long candidateId, Long jobId);
 
     List<Application> findByCandidate_IdOrderByAppliedAtDesc(Long candidateId);
 
-    List<Application> findByJob_IdOrderByAppliedAtDesc(Long jobId);
-
     Optional<Application> findByIdAndCandidate_Id(Long applicationId, Long candidateId);
 
-    List<Application> findByJob_PostedByUserIdOrderByAppliedAtDesc(Long postedByUserId);
+    /*
+     * ============================================================
+     * Recruiter APIs
+     * ============================================================
+     */
 
-    List<Application> findByJob_PostedByUserIdAndStatusOrderByAppliedAtDesc(Long postedByUserId, ApplicationStatus status);
+    List<Application> findByJob_IdOrderByAppliedAtDesc(Long jobId);
 
-    long countByJob_PostedByUserId(Long postedByUserId);
+    List<Application> findByJob_PostedByUserIdOrderByAppliedAtDesc(Long recruiterId);
 
-    long countByJob_PostedByUserIdAndStatus(Long postedByUserId, ApplicationStatus status);
+    List<Application> findByJob_PostedByUserIdAndStatusOrderByAppliedAtDesc(
+            Long recruiterId,
+            ApplicationStatus status
+    );
 
-    @EntityGraph(attributePaths = {"candidate", "job", "resume"})
+    /*
+     * ============================================================
+     * Dashboard Counts
+     * ============================================================
+     */
+
+    long countByJob_PostedByUserId(Long recruiterId);
+
+    long countByJob_PostedByUserIdAndStatus(
+            Long recruiterId,
+            ApplicationStatus status
+    );
+
+    /*
+     * ============================================================
+     * Admin Search
+     * ============================================================
+     */
+
     @Query("""
             SELECT a
             FROM Application a
-            WHERE (:status IS NULL OR a.status = :status)
-              AND (:search IS NULL
-                    OR LOWER(a.candidate.fullName) LIKE LOWER(CONCAT('%', :search, '%'))
-                    OR LOWER(a.candidate.email) LIKE LOWER(CONCAT('%', :search, '%'))
-                    OR LOWER(a.job.title) LIKE LOWER(CONCAT('%', :search, '%'))
-                    OR LOWER(a.job.companyName) LIKE LOWER(CONCAT('%', :search, '%')))
+            WHERE
+            (
+                :keyword IS NULL
+                OR :keyword = ''
+                OR LOWER(a.candidate.fullName) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                OR LOWER(a.candidate.email) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                OR LOWER(a.job.title) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                OR LOWER(a.job.companyName) LIKE LOWER(CONCAT('%', :keyword, '%'))
+            )
+            AND
+            (
+                :status IS NULL
+                OR a.status = :status
+            )
+            ORDER BY a.appliedAt DESC
             """)
     Page<Application> searchAdminApplications(
-            String search,
-            ApplicationStatus status,
+            @Param("keyword") String keyword,
+            @Param("status") ApplicationStatus status,
             Pageable pageable
     );
+
 }

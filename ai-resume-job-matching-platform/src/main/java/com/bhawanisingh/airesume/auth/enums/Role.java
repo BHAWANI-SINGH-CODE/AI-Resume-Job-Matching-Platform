@@ -1,6 +1,6 @@
 package com.bhawanisingh.airesume.auth.enums;
 
-public enum Role {
+public enum  Role {
 
     USER,
 

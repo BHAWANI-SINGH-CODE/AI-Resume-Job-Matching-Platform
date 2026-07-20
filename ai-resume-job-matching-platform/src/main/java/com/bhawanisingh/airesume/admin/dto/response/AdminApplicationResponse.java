@@ -17,17 +17,25 @@ import java.time.LocalDateTime;
 public class AdminApplicationResponse {
 
     private Long id;
+
     private String coverLetter;
+
     private ApplicationStatus status;
+
     private LocalDateTime appliedAt;
 
     private Long candidateId;
+
     private String candidateName;
+
     private String candidateEmail;
 
     private Long jobId;
+
     private String jobTitle;
+
     private String companyName;
+
     private Long jobPostedByUserId;
 
     private Long resumeId;

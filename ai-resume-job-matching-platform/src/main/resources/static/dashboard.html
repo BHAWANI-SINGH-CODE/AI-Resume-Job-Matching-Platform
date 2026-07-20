@@ -2,9 +2,134 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Dashboard | AI Resume</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/components.css">
 </head>
-<body>
+<body class="bg-slate-50 flex h-screen overflow-hidden">
 
+<!-- Sidebar -->
+<aside class="w-64 bg-white border-r border-slate-200 flex flex-col">
+    <div class="h-16 flex items-center px-6 border-b border-slate-200">
+        <h1 class="text-2xl font-bold text-blue-600">AI Resume</h1>
+    </div>
+    <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+        <a href="/dashboard.html" class="flex items-center px-4 py-3 text-blue-600 bg-blue-50 rounded-lg font-medium">
+            Dashboard
+        </a>
+        <a href="/jobs.html" class="flex items-center px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg font-medium transition-colors">
+            Search Jobs
+        </a>
+        <a href="/applications.html" class="flex items-center px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg font-medium transition-colors">
+            My Applications
+        </a>
+        <a href="/resume.html" class="flex items-center px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg font-medium transition-colors">
+            Resume & ATS
+        </a>
+        <a href="/profile.html" class="flex items-center px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg font-medium transition-colors">
+            Profile
+        </a>
+    </nav>
+    <div class="p-4 border-t border-slate-200">
+        <button onclick="app.logout()" class="w-full flex items-center justify-center px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg font-medium transition-colors">
+            Logout
+        </button>
+    </div>
+</aside>
+
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden">
+    <!-- Top Navbar -->
+    <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-end px-8">
+        <!-- Notification Bell Icon (Add this inside your header right side section) -->
+        <div class="relative group cursor-pointer mr-4" id="notificationDropdownToggle">
+            <!-- Bell SVG -->
+            <div class="relative p-2 text-slate-500 hover:text-blue-600 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                </svg>
+                <!-- Red Badge for unread count -->
+                <span id="unreadBadge" class="absolute top-1 right-1 bg-red-500 text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center hidden">0</span>
+            </div>
+
+            <!-- Dropdown Menu -->
+            <div id="notificationMenu" class="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg border border-slate-100 hidden z-50">
+                <div class="p-3 border-b border-slate-100 flex justify-between items-center bg-slate-50 rounded-t-xl">
+                    <h3 class="font-bold text-slate-800 text-sm">Notifications</h3>
+                    <button onclick="markAllAsRead()" class="text-xs text-blue-600 hover:underline font-medium">Mark all read</button>
+                </div>
+                <div id="notificationList" class="max-h-80 overflow-y-auto">
+                    <div class="p-4 text-center text-sm text-slate-500">Loading...</div>
+                </div>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <span class="text-sm text-slate-500">Welcome,</span>
+            <span id="nav-user-name" class="font-semibold text-slate-800">Loading...</span>
+            <div class="h-8 w-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">
+                U
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Content -->
+    <div class="flex-1 overflow-y-auto p-8">
+        <div class="max-w-5xl mx-auto">
+
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">Overview</h2>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- ATS Score Card -->
+                <div class="card border-t-4 border-blue-600">
+                    <div class="card-body">
+                        <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider">ATS Score</h3>
+                        <div class="mt-2 flex items-baseline gap-2">
+                            <span id="ats-score" class="text-4xl font-extrabold text-slate-800">--</span>
+                            <span class="text-slate-500 font-medium">/ 100</span>
+                        </div>
+                        <p class="mt-2 text-sm text-slate-600" id="resume-status-text">Upload resume to calculate</p>
+                    </div>
+                </div>
+
+                <!-- Applied Jobs Card -->
+                <div class="card border-t-4 border-emerald-500">
+                    <div class="card-body">
+                        <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider">Applied Jobs</h3>
+                        <div class="mt-2 flex items-baseline gap-2">
+                            <span id="applied-count" class="text-4xl font-extrabold text-slate-800">0</span>
+                        </div>
+                        <p class="mt-2 text-sm text-slate-600">Active applications</p>
+                    </div>
+                </div>
+
+                <!-- AI Matches Card -->
+                <div class="card border-t-4 border-purple-500">
+                    <div class="card-body">
+                        <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider">AI Matches</h3>
+                        <div class="mt-2 flex items-baseline gap-2">
+                            <span class="text-4xl font-extrabold text-slate-800">New</span>
+                        </div>
+                        <p class="mt-2 text-sm text-blue-600 hover:underline cursor-pointer" onclick="window.location.href='/jobs.html'">View recommended jobs →</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action Section -->
+            <div id="upload-prompt" class="bg-blue-50 border border-blue-100 rounded-xl p-6 text-center">
+                <h3 class="text-lg font-bold text-blue-800 mb-2">Maximize Your Chances</h3>
+                <p class="text-blue-600 mb-4">Upload your latest resume to get a detailed ATS report and personalized job matches.</p>
+                <a href="/resume.html" class="btn btn-primary">Go to Resume Manager</a>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script src="/js/api.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/candidate.js"></script>
 </body>
 </html>

@@ -11,4 +11,15 @@ public class AdminUserStatusUpdateRequest {
 
     @NotNull(message = "Status is required")
     private UserStatus status;
+
+    public AdminUserStatusUpdateRequest() {
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
 }

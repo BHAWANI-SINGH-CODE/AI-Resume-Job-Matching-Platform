@@ -31,7 +31,8 @@ public class ParsedResume extends BaseEntity {
     @Column(name = "parsing_status", nullable = false, length = 30)
     private ParsingStatus parsingStatus = ParsingStatus.NOT_PARSED;
 
-    @Column(name = "raw_text", columnDefinition = "LONGTEXT")
+    @Lob
+    @Column(name = "raw_text", columnDefinition = "TEXT")
     private String rawText;
 
     @Column(name = "professional_summary", columnDefinition = "TEXT")

@@ -17,16 +17,28 @@ import java.time.LocalDateTime;
 public class AdminCompanyResponse {
 
     private Long id;
+
     private String name;
+
     private String website;
+
     private String industry;
+
     private String location;
+
     private String description;
+
     private String logoUrl;
+
     private CompanySize size;
+
     private Integer foundedYear;
+
     private Long createdByUserId;
+
     private boolean deleted;
+
     private LocalDateTime createdAt;
+
     private LocalDateTime updatedAt;
 }
